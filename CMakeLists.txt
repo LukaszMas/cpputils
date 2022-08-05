@@ -12,6 +12,9 @@ set(SANTIIZER_OPTIONS address memory undefined "Sanitizer options")
 set(SANITIZER ${WITH_SANITIZER} CACHE STRING "Select sanitizer" FORCE)
 set_property(CACHE SANITIZER PROPERTY STRINGS ${SANTIIZER_OPTIONS})
 
+# Set Compiler Analyzers
+option(ENABLE_ANALYZER "Turn C/C++ static analyzer on" OFF)
+
 # Set additional CMake flags
 set(CMAKE_VERBOSE_MAKEFILE on)
 set(CMAKE_CXX_STANDARD 17)
@@ -25,6 +28,15 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_GLIBCXX_DEBUG")
 
 # Generate compile_commands.json for text editors like vim or IDE tools
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Include compiler warnings
+include("${CMAKE_SOURCE_DIR}/cmake/compiler_warnings.cmake")
+# Include Analyzer
+include("${CMAKE_SOURCE_DIR}/cmake/analyze.cmake")
+# Include sanitizer
+if (NOT SANITIZER STREQUAL "")
+  include("${CMAKE_SOURCE_DIR}/cmake/sanitizer.cmake")
+endif ()
 
 # Set Target Name
 set(TARGET_NAME "cpputils")
@@ -45,10 +57,3 @@ target_include_directories(${TARGET_NAME}
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/
 )
-
-# Include compiler warnings
-include(cmake/compiler_warnings.cmake)
-# Include sanitizer
-if (NOT SANITIZER STREQUAL "")
-  include(cmake/sanitizer.cmake)
-endif ()
