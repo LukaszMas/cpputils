@@ -1,7 +1,6 @@
 # Custom warning messages for different compilers GCC or Clang
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   set(COMPILER_GCC 1)
-  message("GNU compiler warning messages added")
   target_compile_options("${TARGET_NAME}" PRIVATE
                         -Wall
                         -Warray-bounds
@@ -25,8 +24,9 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
                         -Wunused-but-set-variable
                         -Wwrite-strings
                       )
+  message("GNU compiler warning messages added")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  message("Clang compiler warning messages added")
+  set(COMPILER_CLANG 1)
   target_compile_options("${TARGET_NAME}" PRIVATE
                         -Wall
                         -Wambiguous-member-template
@@ -56,6 +56,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
                         -Wunused-private-field
                         -Wwrite-strings
                       )
+  message("Clang compiler warning messages added")
 else()
   message("No warning messages added")
 endif()
