@@ -29,6 +29,28 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_GLIBCXX_DEBUG")
 # Generate compile_commands.json for text editors like vim or IDE tools
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# Set Target Name
+set(TARGET_NAME "cpputils")
+
+set(SOURCES
+    src/errno.cpp
+    src/parent_exit.cpp
+)
+
+add_library(${TARGET_NAME} STATIC
+    ${SOURCES}
+)
+
+#target_link_libraries(${TARGET_NAME}
+#    PUBLIC
+#)
+
+target_include_directories(${TARGET_NAME}
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
 # Include compiler warnings
 include("${CMAKE_SOURCE_DIR}/cmake/compiler_warnings.cmake")
 # Include Analyzer
@@ -37,23 +59,3 @@ include("${CMAKE_SOURCE_DIR}/cmake/analyze.cmake")
 if (NOT SANITIZER STREQUAL "")
   include("${CMAKE_SOURCE_DIR}/cmake/sanitizer.cmake")
 endif ()
-
-# Set Target Name
-set(TARGET_NAME "cpputils")
-
-set(SOURCES
-    src/errno.cpp
-)
-
-add_library(${TARGET_NAME} STATIC
-    ${SOURCES}
-)
-
-target_link_libraries(${TARGET_NAME}
-    PUBLIC
-)
-
-target_include_directories(${TARGET_NAME}
-    PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/
-)
