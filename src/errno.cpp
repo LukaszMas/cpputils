@@ -1,4 +1,4 @@
-#include "errno.h"
+#include "errnum.h"
 #include <string>
 
 extern "C"
