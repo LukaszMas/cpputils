@@ -59,3 +59,14 @@ include("${CMAKE_SOURCE_DIR}/cmake/analyze.cmake")
 if (NOT SANITIZER STREQUAL "")
   include("${CMAKE_SOURCE_DIR}/cmake/sanitizer.cmake")
 endif ()
+
+# Testing
+option(BUILD_TESTING "Build tests" OFF)
+include(CTest) # Sets BUILD_TESTING which defaults to ON
+
+# Set CMAKE_TESTING_ENABLED to ON (Automatically invoked with #include(CTest))
+# enable_testing()
+
+if (${BUILD_TESTING})
+  add_subdirectory(tests)
+endif()
